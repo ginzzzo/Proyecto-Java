@@ -1,0 +1,121 @@
+package grafico;
+import java.awt.Color;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.SwingConstants;
+import javax.swing.JSeparator;
+
+public class Graphic {
+
+	private JFrame frame;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Graphic window = new Graphic();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	
+	public Graphic() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.getContentPane().setBackground(Color.LIGHT_GRAY);
+		frame.setBackground(Color.GRAY);
+		frame.setForeground(Color.RED);
+		frame.getContentPane().setForeground(Color.LIGHT_GRAY);
+		frame.setBounds(100, 100, 476, 534);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		
+		
+		JLabel CartelBienvenida = new JLabel("Bienvenido al Men\u00FA de Profesores");
+		CartelBienvenida.setBounds(0, 378, 451, 64);
+		frame.getContentPane().add(CartelBienvenida);
+		CartelBienvenida.setFont(new Font("Arial", Font.ITALIC, 29));
+		CartelBienvenida.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\ezequ\\eclipse-workspace\\ProyectoFinal\\lib\\ISBO_1.png"));
+		lblNewLabel.setBounds(10, 0, 434, 371);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setFont(new Font("Arial", Font.PLAIN, 12));
+		frame.setJMenuBar(menuBar);
+		
+		JMenu Alta = new JMenu("Alta");
+		Alta.setFont(new Font("Arial", Font.PLAIN, 12));
+		menuBar.add(Alta);
+		
+		JMenuItem AltaPOP = new JMenuItem("DAR ALTA");
+		AltaPOP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Alta a = new Alta();
+				a.setVisible(true);
+			}
+		});
+		Alta.add(AltaPOP);
+		
+		JSeparator separator = new JSeparator();
+		menuBar.add(separator);
+		
+		JMenu Baja = new JMenu("Baja");
+		Baja.setFont(new Font("Arial", Font.PLAIN, 12));
+		menuBar.add(Baja);
+		
+		JMenuItem BajaPOP = new JMenuItem("DAR BAJA");
+		BajaPOP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Baja b = new Baja();
+				b.setVisible(true);
+			}
+		});
+		Baja.add(BajaPOP);
+		
+		JSeparator separator_1 = new JSeparator();
+		menuBar.add(separator_1);
+		
+		JMenu Modificacion = new JMenu("Modificacion");
+		Modificacion.setBackground(Color.GRAY);
+		Modificacion.setFont(new Font("Arial", Font.PLAIN, 12));
+		menuBar.add(Modificacion);
+		
+		JMenuItem ModPOP = new JMenuItem("MODIFY");
+		ModPOP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Modificar m = new Modificar();
+				m.setVisible(true);
+			}
+		});
+		Modificacion.add(ModPOP);
+	}
+}
