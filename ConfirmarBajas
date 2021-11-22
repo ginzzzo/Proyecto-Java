@@ -1,0 +1,76 @@
+package grafico;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.layout.FormSpecs;
+import java.awt.GridLayout;
+import javax.swing.JLabel;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.BoxLayout;
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class ConfirmarBaja extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		try {
+			ConfirmarBaja dialog = new ConfirmarBaja();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Create the dialog.
+	 */
+	public ConfirmarBaja() {
+		setTitle("Usuario borrado con exito");
+		setBounds(100, 100, 450, 300);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		{
+			JLabel lblNewLabel = new JLabel("EL USUARIO FUE DADO DE BAJA!");
+			lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
+			lblNewLabel.setBounds(32, 70, 363, 76);
+			contentPanel.add(lblNewLabel);
+		}
+		{
+			JPanel buttonPane = new JPanel();
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			buttonPane.setLayout(new GridLayout(0, 1, 0, 0));
+			{
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+		}
+	}
+
+}
