@@ -1,0 +1,125 @@
+package grafico;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.awt.event.ActionEvent;
+
+public class Baja extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+	private JTextField campoCi;
+	private JTextField campoName;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		try {
+			Baja dialog = new Baja();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * jCreate the dialog.
+	 */
+	public Baja() {
+		setTitle("Menu de Bajas");
+		setBounds(100, 100, 450, 300);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		{
+			JLabel ciTxt = new JLabel("Cedula");
+			ciTxt.setBounds(47, 56, 46, 14);
+			contentPanel.add(ciTxt);
+		}
+		{
+			JLabel NameTxt = new JLabel("Nombre");
+			NameTxt.setBounds(47, 107, 46, 14);
+			contentPanel.add(NameTxt);
+		}
+		{
+			campoCi = new JTextField();
+			campoCi.setBounds(103, 53, 86, 20);
+			contentPanel.add(campoCi);
+			campoCi.setColumns(10);
+		}
+		{
+			campoName = new JTextField();
+			campoName.setColumns(10);
+			campoName.setBounds(103, 104, 185, 20);
+			contentPanel.add(campoName);
+		}
+		{
+			JButton BuscarCI = new JButton("Buscar");
+			BuscarCI.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					SelectGrf ver = new SelectGrf();
+					ver.setVisible(true);
+				}
+			});
+			BuscarCI.setBounds(199, 52, 89, 23);
+			contentPanel.add(BuscarCI);
+		}
+		{
+			JButton btnBorrar = new JButton("Borrar");
+			btnBorrar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ConexionBD conexion = new ConexionBD();
+					Connection cn = null;
+					Statement stm = null;
+					ResultSet rs = null;
+					String valorCiBaja= campoCi.getText();
+					String valorNomBaja = campoName.getText();
+					
+					if (valorCiBaja.length() == 8) {
+						try {
+							cn = conexion.conectar();
+							stm = cn.createStatement();
+							String SQL = "DELETE FROM profesor WHERE ci='"+valorCiBaja+"' AND nombre='"+valorNomBaja+"';";
+							stm.execute(SQL);
+							ConfirmarBaja cb = new ConfirmarBaja();
+							cb.setVisible(true);
+						} catch(SQLException e1) {
+							e1.printStackTrace();
+						}
+					}
+					else {
+						ErrorLargoCi error1 = new  ErrorLargoCi();
+						error1.setVisible(true);
+					}
+				}
+			});
+			btnBorrar.setBounds(47, 206, 89, 23);
+			contentPanel.add(btnBorrar);
+		}
+		{
+			JButton btnCancelar = new JButton("Cancelar");
+			btnCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					dispose();
+				}
+			});
+			btnCancelar.setBounds(295, 206, 89, 23);
+			contentPanel.add(btnCancelar);
+		}
+	}
+
+}
