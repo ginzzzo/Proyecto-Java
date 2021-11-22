@@ -1,0 +1,129 @@
+package grafico;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+public class Alta extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+	private JTextField ciCampo;
+	private JTextField nameCampo;
+
+	/**
+	 * Launch the application.
+	 */
+	
+	public static void main(String[] args) {
+		
+		try {
+			Alta dialog = new Alta();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception a) {
+			a.printStackTrace();
+		}
+	}
+
+	/**
+	 * Create the dialog.
+	 */
+	public Alta() {
+		setTitle("Menu de Altas");
+		setBounds(100, 100, 463, 295);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		
+		JLabel CedulaTxt = new JLabel("Cedula");
+		CedulaTxt.setBounds(58, 60, 46, 14);
+		contentPanel.add(CedulaTxt);
+		
+		JLabel NombreTxt = new JLabel("Nombre");
+		NombreTxt.setBounds(58, 124, 46, 14);
+		contentPanel.add(NombreTxt);
+		
+		ciCampo = new JTextField();
+		ciCampo.setBounds(126, 57, 98, 20);
+		contentPanel.add(ciCampo);
+		ciCampo.setColumns(10);
+		
+		nameCampo = new JTextField();
+		nameCampo.setColumns(10);
+		nameCampo.setBounds(126, 121, 190, 20);
+		contentPanel.add(nameCampo);
+		
+		JButton Guardar = new JButton("Guardar");
+		Guardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ConexionBD conexion = new ConexionBD();
+				Connection cn = null;
+				Statement stm = null;
+				ResultSet rs = null;
+				String valorCiAlta= ciCampo.getText();
+				String valorNomAlta = nameCampo.getText();
+				
+				if (valorCiAlta.length() == 8) {
+					try {
+						cn = conexion.conectar();
+						stm = cn.createStatement();
+						String SQL = "INSERT INTO profesor VALUES ("+valorCiAlta+",'"+valorNomAlta+"');";
+						stm.execute(SQL);
+						ConfirmarAlta ca = new ConfirmarAlta();
+						ca.setVisible(true);
+					} catch(SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
+				else {
+					ErrorLargoCi error1 = new  ErrorLargoCi();
+					error1.setVisible(true);
+				}
+
+			}
+		});
+		Guardar.setBounds(37, 213, 89, 23);
+		contentPanel.add(Guardar);
+		
+		JButton CanelarBtn = new JButton("Cancelar");
+		CanelarBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ciCampo.setText("");
+				nameCampo.setText("");
+			}
+		});
+		CanelarBtn.setBounds(171, 213, 89, 23);
+		contentPanel.add(CanelarBtn);
+		
+		JButton VolverBtn = new JButton("Volver");
+		VolverBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
+		VolverBtn.setBounds(302, 213, 89, 23);
+		contentPanel.add(VolverBtn);
+		
+		JButton Buscar = new JButton("Buscar");
+		Buscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SelectGrf ver = new SelectGrf();
+				ver.setVisible(true);
+			}
+		});
+		Buscar.setBounds(227, 56, 89, 23);
+		contentPanel.add(Buscar);
+	}
+}
